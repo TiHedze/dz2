@@ -15,7 +15,7 @@
 
         public delegate void DateChangedEventHandler(object source, DateChangedEventArgs args);
 
-        public event DateChangedEventHandler DateChanged;
+        public event DateChangedEventHandler? DateChanged;
 
         private DateTime vrijednost;
         public DateTime Vrijednost
@@ -27,7 +27,6 @@
                 this.DayTextBox.Text = value.Day.ToString();
                 this.MonthTextBox.Text = value.Month.ToString();
                 this.YearTextBox.Text = value.Year.ToString();
-                this.OnDateChanged();
             }
         }
 
@@ -55,6 +54,8 @@
             {
                 this.SetInputBackgroundColor(Color.White);
                 this.Vrijednost = date;
+                this.OnDateChanged();
+
             }
             else
             {

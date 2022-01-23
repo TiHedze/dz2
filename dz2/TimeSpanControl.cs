@@ -20,15 +20,20 @@
             {
                 this.dateControl1.Vrijednost = value.Item1;
                 this.dateControl2.Vrijednost = value.Item2;
-                this.OnDateRangeChanged();
             }
         }
 
-        public void OnFirstDateChanged(object sender, DateChangedEventArgs args) =>
+        public void OnFirstDateChanged(object sender, DateChangedEventArgs args)
+        {
             this.Raspon = new Tuple<DateTime, DateTime>(args.DateValue, this.Raspon.Item2);
+            this.OnDateRangeChanged();
+        }
 
-        public void OnSecondDateChanged(object sender, DateChangedEventArgs args) => 
+        public void OnSecondDateChanged(object sender, DateChangedEventArgs args)
+        {
             this.Raspon = new Tuple<DateTime, DateTime>(this.Raspon.Item1, args.DateValue);
+            this.OnDateRangeChanged();
+        }
 
         protected virtual void OnDateRangeChanged()
         {

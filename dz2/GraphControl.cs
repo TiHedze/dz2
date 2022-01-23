@@ -1,45 +1,65 @@
 ﻿namespace dz2
 {
     using System;
-    using System.Drawing;
     using System.Windows.Forms;
-
     public partial class GraphControl : UserControl
     {
-        private readonly Graphics graphics;
-        private bool canDraw = true;
+        private Tuple<DateTime, DateTime> date;
+
         public GraphControl()
         {
+            
             InitializeComponent();
-
-            this.graphics = this.Graph.CreateGraphics();
+            this.CreateControl();
+            this.date = new(new DateTime(2000, 1, 1), DateTime.Today);
+            this.Raspon = new(new DateTime(2000, 1, 1), DateTime.Today);
         }
 
-        private Tuple<DateTime, DateTime> date;
+        public delegate void DoubleClickEventHandler(object source, DoubleClickEventArgs args);
+
+        public event DoubleClickEventHandler? Dvoklik;
+
         public Tuple<DateTime, DateTime> Raspon
         {
             get => this.date;
             set
             {
                 this.date = value;
-                this.Draw();
             }
         }
 
-        private void Draw()
+        protected virtual void OnDvoklik()
         {
-            if (this.canDraw)
+            if (this.Dvoklik is not null)
             {
-                this.canDraw = false;
-                var pen = new Pen(Color.Black);
-                var paddedHeight = this.Graph.Height * 0.9;
-                var paddedWidth = this.Graph.Width * 0.9;
-                this.graphics.DrawLine(pen, new Point(0, (int)paddedHeight / 2), new Point((int)paddedWidth, (int)paddedWidth / 2));
-                
+                Dvoklik(this, new()
+                {
+                    Date = new(
+                        new DateTime(this.Raspon.Item1.Year, 1, 1),
+                        new DateTime(this.Raspon.Item2.Year, 12, 31)
+                        )
+                });
 
-                this.canDraw = true;
+                this.Raspon = new Tuple<DateTime, DateTime>(
+                 new DateTime(this.Raspon.Item1.Year, 1, 1),
+                 new DateTime(this.Raspon.Item2.Year, 12, 31)
+                 );
             }
+        }
 
+        private void GraphControl_DoubleClick(object sender, EventArgs e)
+        {
+            this.OnDvoklik();
+        }
+
+        private void Graph_DoubleClick(object sender, EventArgs e)
+        {
+            this.GraphControl_DoubleClick(sender, e);
+        }
+
+        public void OnDateRangeChanged(object sender, DateRangeChangedEventArgs e)
+        {
+            this.Raspon = e.Range;
         }
     }
 }

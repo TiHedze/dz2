@@ -39,6 +39,7 @@
             this.Graph.Size = new System.Drawing.Size(715, 340);
             this.Graph.TabIndex = 0;
             this.Graph.TabStop = false;
+            this.Graph.DoubleClick += new System.EventHandler(this.Graph_DoubleClick);
             // 
             // GraphControl
             // 
@@ -48,6 +49,7 @@
             this.Controls.Add(this.Graph);
             this.Name = "GraphControl";
             this.Size = new System.Drawing.Size(721, 346);
+            this.DoubleClick += new System.EventHandler(this.GraphControl_DoubleClick);
             ((System.ComponentModel.ISupportInitialize)(this.Graph)).EndInit();
             this.ResumeLayout(false);
 
@@ -55,6 +57,6 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox Graph;
+        public System.Windows.Forms.PictureBox Graph;
     }
 }
