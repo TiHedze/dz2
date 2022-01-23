@@ -1,6 +1,7 @@
 ﻿namespace dz2
 {
     using System;
+    using System.Drawing;
     using System.Windows.Forms;
     public partial class GraphControl : UserControl
     {
@@ -13,6 +14,7 @@
             this.CreateControl();
             this.date = new(new DateTime(2000, 1, 1), DateTime.Today);
             this.Raspon = new(new DateTime(2000, 1, 1), DateTime.Today);
+            this.Graph.Image = new Bitmap(this.Width, this.Height);
         }
 
         public delegate void DoubleClickEventHandler(object source, DoubleClickEventArgs args);
